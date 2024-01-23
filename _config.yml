@@ -22,8 +22,9 @@ title: Daan Ruting
 email: daan.j.ruting@gmail.com
 description: >- # this means to ignore newlines until "baseurl:"
   Student at Breda University of Applied Sciences! Passionate to learn more about network programming.
+domain: krokoloko.github.io
 baseurl: "" # the subpath of your site, e.g. /blog
-url: "krokoloko.github.io" # the base hostname & protocol for your site, e.g. http://example.com
+url: "https://krokoloko.github.io" # the base hostname & protocol for your site, e.g. http://example.com
 twitter_username: daan_j_r_dev
 github_username:  krokoloko
 
