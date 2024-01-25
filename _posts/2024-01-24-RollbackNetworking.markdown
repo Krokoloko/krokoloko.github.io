@@ -97,22 +97,48 @@ Program::Update(float delta) {
         accumalator -= FIXED_TIMESTEP;
     }
 }
-Program::GameUpdate(float delta, Inputs inputs){
+Program::GameUpdate(float delta, Inputs inputs) {
     //Runs your game, deterministicly...
 }
 ```
 Now on to the next part we finally get to one of the most important aspects of this algorithm, <b id="NETWORKING">Networking</b>. Now depending on how broad your domain knowledge is you can choose to make your own networking feature. You have to be aware that when you're going to use a networking library or make your own networking feature it needs to support UDP. The reason we want to use UDP over TCP is so that our packets gets sent as fast as possible to the recipient players/server.<br><br> For those that prefer to use a networking library I can recommend using GameNetworkingSockets, SLikeNet, Asio or Yojimbo(doesn't support peer 2 peer as of yet). These libraries cover the requirements of what you need for your networking. In my case I use c++ so if you wish to have a networking library supporting the programming language of your choice, you'll have to look into that yourself. <br><br> 
 
+```cpp
+//Pseudo code to showcase roughly how networking could be implemented to your game loop.
+Program::Update(float delta) {
+    UpdateNetwork();
+    Inputs _inputs = GetInputs();
+    accumalator += delta;
+    while(accumalator >= FIXED_TIMESTEP)
+    {
+        Inputs _combinedInputs = _inputs + _receivedInputs;
+        //Send the inputs before updating the game so the networking has more time to send the data.
+        SendInputPacket(Inputs);
+        game.Update(FIXED_TIMESTEP, _inputs);
+        accumalator -= FIXED_TIMESTEP;
+    }
+}
 
+Program::UpdateNetwork() {
+    std::vector<Packet> packets = netlib::GetPackets();
+    //loops over received packets and processes them depending what kind of packet it is
+    ProcessPackets(packets);
+    netlib::ClearReceivedPackets();
+}
+
+Program::SendInputPacket(Inputs) {
+    //Insert library code to send a message to the server or peer.
+}
+```
 
 Lastly we'll be going through the part we have to think about <b id=STATERESTORE>State restoration</b>. State restoration to put it briefly is how we can save and restore our gamestate. This is a core feature we need for this algorithm since we need to be able to rewind back to a previous or older gamestate when we receive a packet of inputs too late that was designated to be executed a couple of frames later. <br><br> What is important to note is that we don't have actually copy the exact state of our whole programme since we're not going to need to restore any render buffers or particles for example. You only need to be able to restore the states that affect directly to the gameplay such as the character data, gamemode data and prop data. Here you will have to be carefull that data like audioplayers don't revert to an older state since that will cause audio artifacts in your game when preforming a rollback.
 
 <h1 style="font-size: 1.9em">Conclusion</h1>
 Now that we have gone through the important aspects before programming the rollback algorithm that's where I'm going to conclude this blogpost for the time being, since I haven't gotten to the part of implementing rollback myself yet. I would've loved to show more details on how to implement it but with my current knowledge, I'm not confident yet to make uneducated showcase with code examples for you, the reader to learn from. I will write a follow up blog post in the near future where I'm going to go into implementing the rollback algorithm with an example game. I hope you've enjoyed reading this blog post as I did writing it and perhaps sparked an interest in network programming.
 
-<h2 style="font-size: 1.4em">Recommended resources and articles</h2>
-<a href=""></a>
-<a href=""></a>
-<a href=""></a>
-<a href=""></a>
-<a href=""></a>
+<h2 style="font-size: 1.4em">Recommended resources</h2>
+- <a href="https://www.photonengine.com/quantum">Photon Quantum</a>
+- <a href="https://github.com/pond3r/ggpo">GGPO</a>
+- <a href="https://fornace.medium.com/rivals-on-switch-the-biggest-challenge-of-my-career-f2ebaf7280f3">Article of Dan Fornace's journey of implementing rollback networking</a>
+- <a href="https://youtu.be/7jb0FOcImdg?si=t3O_9JAxhpSYQnjt">GDC talk from Mortal Kombat and Injustice 2 developer about optimising the game for rollback</a>
+- <a href="https://en.wikipedia.org/wiki/Netcode">A brief wikipedia page explaining how rollback networking works</a>
