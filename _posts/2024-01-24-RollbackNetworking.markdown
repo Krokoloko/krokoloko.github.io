@@ -5,7 +5,7 @@ date:   2024-01-23 15:11:04 +0100
 categories: Blog Networking
 ---
 <h3 style="font-size: 1.4em">Foreword</h3>
-Welcome to my first ever blog post! My name is Daan Ruting and currently while writing this a year 2 student at Breda University of Applied Sciences. The programme I'm doing is Creative Media and Game Technologies and this blog post is a result of my selft study project. I hope you'll enjoy reading this as I enjoyed learning more in the domain of network programming.
+Welcome to my first-ever blog post! My name is Daan Ruting and currently while writing this a year 2 student at Breda University of Applied Sciences. The programme I'm doing is Creative Media and Game Technologies and this blog post is a result of my selft study project. I hope you'll enjoy reading this as I enjoyed learning more in the domain of network programming.
 
 - <a href="#HEADER0">An introduction to rollback networking</a>
 - <a href="#HEADER1">What is rollback networking?</a>
